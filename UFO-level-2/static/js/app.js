@@ -33,44 +33,26 @@ button.on("click", () => {
     let inputState = inputFieldState.property("value").toLowerCase().trim();
     let inputShape = inputFieldShape.property("value").toLowerCase().trim();
     let inputCountry = inputFieldCountry.property("value").toLowerCase().trim();
-    let filterDate = tableData.filter(tableData => tableData.datetime === inputDate);
-    let filterCity = tableData.filter(tableData => tableData.city === inputCity);
-    let filterState = tableData.filter(tableData => tableData.state === inputState);
-    let filterShape = tableData.filter(tableData => tableData.shape === inputShape);
-    let filterCountry = tableData.filter(tableData => tableData.country === inputCountry);
-    let filterCombined = tableData.filter(tableData => tableData.datetime === inputDate 
-      && tableData.city === inputCity 
-      && tableData.state === inputState 
-      && tableData.shape === inputShape 
-      && tableData.country === inputCountry);
+
+    let filterData = tableData;
+    if (inputDate) {
+        filterData = filterData.filter(tableData => tableData.datetime === inputDate);
+    }
+    if (inputCity) {
+        filterData = filterData.filter(tableData => tableData.city === inputCity);
+    }
+    if (inputState) {
+        filterData = filterData.filter(tableData => tableData.state === inputState);
+    }
+    if (inputShape) {
+        filterData = filterData.filter(tableData => tableData.shape === inputShape);
+    }
+    if (inputCountry) {
+        filterData = filterData.filter(tableData => tableData.country === inputCountry);
+    }
 
     tableBody.html("");
 
-    let response = {
-        filterDate,
-        filterCity,
-        filterState,
-        filterShape,
-        filterCountry,
-        filterCombined
-    }
+    dataRender(filterData);
 
-    if (response.filterCombined.length !== 0) {
-        dataRender(filterCombined);
-
-    } else if (response.filterCombined.length === 0 && (
-        response.filterDate.length !== 0 || 
-        response.filterCity.length !== 0 || 
-        response.filterState.length !== 0 || 
-        response.filterShape.length !== 0 || 
-        response.filterCountry.length !== 0)) {
-        dataRender(filterDate),
-        dataRender(filterCity), 
-        dataRender(filterState),
-        dataRender(filterShape),
-        dataRender(filterCountry);
-
-    } else {
-        tableBody.append("tr").append("td").text("No Entries Found");
-    }
 })
